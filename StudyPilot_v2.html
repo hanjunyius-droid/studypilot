@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyPilot</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--text:#171923;--muted:#737784;--line:#e8e9ef;--accent:#5b5ce2;--accent2:#eeeeff;--danger:#e45858;--good:#2e9b67}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}.app{display:flex;min-height:100vh}.sidebar{width:235px;background:#fff;border-right:1px solid var(--line);padding:24px 16px;position:fixed;inset:0 auto 0 0}.brand{font-size:22px;font-weight:800;margin:4px 10px 30px}.brand span{color:var(--accent)}.nav button{width:100%;border:0;background:none;text-align:left;padding:12px 13px;border-radius:10px;color:#555;font-weight:600;cursor:pointer;margin-bottom:5px}.nav button.active,.nav button:hover{background:var(--accent2);color:var(--accent)}.main{margin-left:235px;flex:1;padding:34px;max-width:1250px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.top h1{margin:0;font-size:30px}.sub{color:var(--muted);margin-top:5px}.primary{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px}.stat{font-size:27px;font-weight:800;margin-top:7px}.label{color:var(--muted);font-size:13px}.layout{display:grid;grid-template-columns:1.35fr .8fr;gap:18px}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.section-title h2{font-size:18px;margin:0}.task{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0}.check{width:20px;height:20px;accent-color:var(--accent)}.task-main{flex:1;min-width:0}.task-name{font-weight:700}.task-meta{font-size:12px;color:var(--muted);margin-top:3px}.badge{font-size:11px;padding:5px 8px;border-radius:999px;background:var(--accent2);color:var(--accent);font-weight:700;white-space:nowrap}.empty{color:var(--muted);padding:24px 0;text-align:center}.progress{height:9px;background:#ececf2;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--accent);border-radius:99px}.class-row{margin:14px 0}.class-top{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:7px}.view{display:none}.view.active{display:block}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;background:#fff}.modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal.open{display:flex}.modal-box{background:#fff;border-radius:16px;padding:24px;width:min(540px,100%);max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.close{border:0;background:#eee;border-radius:8px;width:32px;height:32px;cursor:pointer}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.secondary{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 15px;cursor:pointer}.danger{color:var(--danger);cursor:pointer;border:0;background:none;font-size:12px}.notice{background:var(--accent2);border:1px solid #dedeff;border-radius:12px;padding:14px;margin-bottom:18px;color:#444;font-size:13px}
+.class-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px}.class-tab{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700;white-space:nowrap}.class-tab.active{background:var(--accent2);border-color:#dedeff;color:var(--accent)}
+.grade-box{display:grid;grid-template-columns:1fr 1fr;gap:18px}.grade-big{font-size:38px;font-weight:800}.grade-good{color:var(--good)}.score-input{width:72px;padding:7px;border:1px solid var(--line);border-radius:8px}.score-cell{white-space:nowrap}.assignment-row{display:grid;grid-template-columns:1fr 130px 90px 70px;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.assignment-row:last-child{border-bottom:0}.calculator{max-width:650px}.calc-result{margin-top:16px;padding:18px;background:var(--accent2);border-radius:12px;text-align:center}.calc-result .big{font-size:34px;font-weight:800;color:var(--accent)}.small-muted{font-size:12px;color:var(--muted)}
+@media(max-width:850px){.sidebar{width:70px;padding:18px 8px}.brand{font-size:0}.brand span{font-size:20px}.nav button{font-size:0;text-align:center}.nav button:first-letter{font-size:18px}.main{margin-left:70px;padding:22px}.grid{grid-template-columns:1fr 1fr}.layout,.grade-box{grid-template-columns:1fr}.assignment-row{grid-template-columns:1fr 100px 75px}.assignment-row .row-date{display:none}}
+@media(max-width:520px){.main{padding:16px}.grid,.form-grid{grid-template-columns:1fr}.top{align-items:flex-start;gap:10px}.top h1{font-size:24px}.assignment-row{grid-template-columns:1fr 82px}.assignment-row .row-percent{display:none}.score-input{width:68px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">Study<span>Pilot</span></div>
+  <div class="nav">
+    <button class="active" onclick="showView('dashboard',this)">🏠 Dashboard</button>
+    <button onclick="showView('assignments',this)">📝 Assignments</button>
+    <button onclick="showView('classes',this)">📚 Classes</button>
+    <button onclick="showView('grades',this)">📊 Grades</button>
+    <button onclick="showView('goals',this)">🎯 Goals</button>
+  </div>
+</aside>
+
+<main class="main">
+<section id="dashboard" class="view active">
+  <div class="top"><div><h1>Good evening 👋</h1><div class="sub">Here's what you need to focus on.</div></div><button class="primary" onclick="openModal()">+ Add assignment</button></div>
+  <div class="grid">
+    <div class="card"><div class="label">Current assignments</div><div class="stat" id="total">0</div></div>
+    <div class="card"><div class="label">Completed</div><div class="stat" id="completed">0</div></div>
+    <div class="card"><div class="label">Due this week</div><div class="stat" id="week">0</div></div>
+    <div class="card"><div class="label">Completion</div><div class="stat" id="percent">0%</div></div>
+  </div>
+  <div class="layout">
+    <div class="card"><div class="section-title"><h2>Upcoming assignments</h2><button class="secondary" onclick="showView('assignments',document.querySelectorAll('.nav button')[1])">View all</button></div><div id="upcoming"></div></div>
+    <div class="card"><div class="section-title"><h2>Class grades</h2></div><div id="classProgress"></div></div>
+  </div>
+</section>
+
+<section id="assignments" class="view">
+  <div class="top"><div><h1>Assignments</h1><div class="sub">Keep every deadline and score in one place.</div></div><button class="primary" onclick="openModal()">+ Add assignment</button></div>
+  <div class="card"><div id="allTasks"></div></div>
+</section>
+
+<section id="classes" class="view">
+  <div class="top"><div><h1>Classes</h1><div class="sub">Each class gets its own assignment list, like Canvas.</div></div><button class="primary" onclick="openModal()">+ Add assignment</button></div>
+  <div class="notice">Add assignments to a class and StudyPilot will automatically create a class tab. Enter points earned to calculate that class's current grade.</div>
+  <div class="class-tabs" id="classTabs"></div>
+  <div id="classDetail"></div>
+</section>
+
+<section id="grades" class="view">
+  <div class="top"><div><h1>Grade Calculator</h1><div class="sub">See your current class grades and test different scores.</div></div></div>
+  <div class="grade-box">
+    <div class="card">
+      <div class="section-title"><h2>What-if calculator</h2></div>
+      <div class="form-grid">
+        <div class="field"><label>Points earned</label><input id="calcEarned" type="number" min="0" step="any" placeholder="85"></div>
+        <div class="field"><label>Points possible</label><input id="calcPossible" type="number" min="0.01" step="any" placeholder="100"></div>
+      </div>
+      <button class="primary" style="margin-top:16px" onclick="calculateGrade()">Calculate</button>
+      <div id="calcResult"></div>
+    </div>
+    <div class="card">
+      <div class="section-title"><h2>Your classes</h2></div>
+      <div id="gradeCards"></div>
+    </div>
+  </div>
+</section>
+
+<section id="goals" class="view">
+  <div class="top"><div><h1>Goals</h1><div class="sub">Turn schoolwork into small wins.</div></div></div>
+  <div class="grid">
+    <div class="card"><div class="label">Weekly completion goal</div><div class="stat">80%</div><div class="progress" style="margin-top:12px"><div class="bar" style="width:62%"></div></div></div>
+    <div class="card"><div class="label">Assignments completed</div><div class="stat" id="goalCompleted">0</div></div>
+  </div>
+  <div class="card"><h2 style="margin-top:0">How to use your goals</h2><p style="color:var(--muted);line-height:1.6">Start by adding your real assignments. Check them off when finished and enter scores in the class tab. StudyPilot will calculate your grades automatically.</p></div>
+</section>
+</main>
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-box">
+  <div class="modal-head"><h2 style="margin:0">Add assignment</h2><button class="close" onclick="closeModal()">×</button></div>
+  <form onsubmit="addTask(event)">
+    <div class="form-grid">
+      <div class="field" style="grid-column:1/-1"><label>Assignment</label><input id="name" required placeholder="e.g. Biology chapter 4"></div>
+      <div class="field"><label>Class</label><input id="className" required placeholder="e.g. Biology"></div>
+      <div class="field"><label>Due date</label><input id="due" type="date" required></div>
+      <div class="field"><label>Points possible</label><input id="points" type="number" min="0.01" step="any" required placeholder="100"></div>
+      <div class="field"><label>Points earned <span class="small-muted">(optional)</span></label><input id="earned" type="number" min="0" step="any" placeholder="85"></div>
+      <div class="field"><label>Priority</label><select id="priority"><option>Normal</option><option>High</option><option>Low</option></select></div>
+    </div>
+    <div class="actions"><button type="button" class="secondary" onclick="closeModal()">Cancel</button><button class="primary">Add assignment</button></div>
+  </form>
+</div>
+</div>
+
+<script>
+const KEY='studypilot_tasks_v2';
+const OLD_KEY='studypilot_tasks_v1';
+let tasks=JSON.parse(localStorage.getItem(KEY)||'null');
+if(!tasks){
+  const old=JSON.parse(localStorage.getItem(OLD_KEY)||'[]');
+  tasks=old.map(t=>({...t,points:t.points||100,earned:t.done?Number(t.points||0):null}));
+}
+let selectedClass='';
+
+function save(){localStorage.setItem(KEY,JSON.stringify(tasks));render();}
+function showView(id,btn){
+ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ if(btn)btn.classList.add('active');
+ render();
+}
+function openModal(){
+ document.getElementById('modal').classList.add('open');
+ document.getElementById('due').value=new Date(Date.now()+86400000).toISOString().slice(0,10);
+ document.getElementById('earned').value='';
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function addTask(e){
+ e.preventDefault();
+ const possible=Number(document.getElementById('points').value);
+ const earnedRaw=document.getElementById('earned').value;
+ const earned=earnedRaw===''?null:Math.min(Math.max(Number(earnedRaw),0),possible);
+ tasks.push({
+   id:Date.now(),name:document.getElementById('name').value.trim(),
+   className:document.getElementById('className').value.trim(),
+   due:document.getElementById('due').value,points:possible,earned,
+   priority:document.getElementById('priority').value,done:false
+ });
+ e.target.reset();closeModal();save();
+}
+function toggle(id){const t=tasks.find(x=>x.id===id);t.done=!t.done;save()}
+function del(id){tasks=tasks.filter(x=>x.id!==id);save()}
+function updateScore(id,value){
+ const t=tasks.find(x=>x.id===id); if(!t)return;
+ if(value===''){t.earned=null}
+ else {const n=Number(value);t.earned=Math.min(Math.max(isFinite(n)?n:0,0),Number(t.points)||0)}
+ save();
+}
+function dateText(d){return new Date(d+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}
+function daysAway(d){return Math.ceil((new Date(d+'T23:59:59')-new Date())/86400000)}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function classNames(){return [...new Set(tasks.map(t=>t.className).filter(Boolean))].sort((a,b)=>a.localeCompare(b))}
+function classStats(name){
+ const a=tasks.filter(t=>t.className===name);
+ const graded=a.filter(t=>t.earned!==null && t.earned!==undefined && Number(t.points)>0);
+ const earned=graded.reduce((s,t)=>s+Number(t.earned||0),0);
+ const possible=graded.reduce((s,t)=>s+Number(t.points||0),0);
+ return {all:a,graded,earned,possible,pct:possible?earned/possible*100:null};
+}
+function gradeLetter(p){
+ if(p===null)return '—';
+ if(p>=90)return 'A';
+ if(p>=80)return 'B';
+ if(p>=70)return 'C';
+ if(p>=60)return 'D';
+ return 'F';
+}
+function taskHTML(t,showDelete=false){
+ return `<div class="task">
+ <input class="check" type="checkbox" ${t.done?'checked':''} onchange="toggle(${t.id})">
+ <div class="task-main"><div class="task-name" style="${t.done?'text-decoration:line-through;color:#999':''}">${esc(t.name)}</div><div class="task-meta">${esc(t.className)} · Due ${dateText(t.due)} · ${t.points} pts${t.earned!==null&&t.earned!==undefined?' · '+t.earned+'/'+t.points:''}</div></div>
+ <span class="badge">${esc(t.priority)}</span>${showDelete?`<button class="danger" onclick="del(${t.id})">Delete</button>`:''}
+ </div>`;
+}
+function renderClasses(){
+ const names=classNames();
+ if(selectedClass && !names.includes(selectedClass))selectedClass=names[0]||'';
+ if(!selectedClass)selectedClass=names[0]||'';
+ document.getElementById('classTabs').innerHTML=names.length?names.map(n=>`<button class="class-tab ${n===selectedClass?'active':''}" onclick="selectClass('${esc(n).replace(/'/g,"&#039;")}')">${esc(n)}</button>`).join(''):'';
+ const detail=document.getElementById('classDetail');
+ if(!selectedClass){detail.innerHTML='<div class="card"><div class="empty">Add an assignment to create your first class.</div></div>';return}
+ const s=classStats(selectedClass);
+ const pct=s.pct===null?null:s.pct;
+ const rows=s.all.slice().sort((a,b)=>a.due.localeCompare(b.due)).map(t=>`
+ <div class="assignment-row">
+   <div><div class="task-name">${esc(t.name)}</div><div class="task-meta">Due ${dateText(t.due)} · ${t.points} pts</div></div>
+   <div class="score-cell"><input class="score-input" type="number" min="0" max="${t.points}" step="any" value="${t.earned===null||t.earned===undefined?'':t.earned}" placeholder="Score" onchange="updateScore(${t.id},this.value)"> / ${t.points}</div>
+   <div class="row-percent">${t.earned===null||t.earned===undefined?'—':Math.round(t.earned/t.points*100)+'%'}</div>
+   <button class="danger" onclick="del(${t.id})">Delete</button>
+ </div>`).join('');
+ detail.innerHTML=`<div class="card" style="margin-bottom:16px">
+   <div class="section-title"><h2>${esc(selectedClass)}</h2><button class="primary" onclick="openModalForClass()">+ Add assignment</button></div>
+   <div class="grade-box">
+     <div><div class="label">Current grade</div><div class="grade-big">${pct===null?'—':pct.toFixed(1)+'%'} ${pct===null?'':`<span style="font-size:20px;color:var(--muted)">(${gradeLetter(pct)})</span>`}</div>
+     <div class="small-muted">${s.graded.length} graded of ${s.all.length} assignments · ${s.earned}/${s.possible} points</div></div>
+     <div><div class="label">Grade progress</div><div class="progress" style="margin-top:12px"><div class="bar" style="width:${pct===null?0:Math.min(pct,100)}%"></div></div><div class="small-muted" style="margin-top:8px">Grades are calculated by total points earned ÷ total points possible.</div></div>
+   </div>
+ </div>
+ <div class="card"><div class="section-title"><h2>Assignments</h2><span class="small-muted">Enter scores as you receive them</span></div>${rows||'<div class="empty">No assignments in this class yet.</div>'}</div>`;
+}
+function selectClass(name){selectedClass=name;renderClasses()}
+function openModalForClass(){openModal();document.getElementById('className').value=selectedClass}
+function calculateGrade(){
+ const e=Number(document.getElementById('calcEarned').value),p=Number(document.getElementById('calcPossible').value);
+ const out=document.getElementById('calcResult');
+ if(!isFinite(e)||!isFinite(p)||p<=0||e<0){out.innerHTML='<div class="calc-result">Enter valid non-negative points.</div>';return}
+ const pct=Math.min(e/p*100,100);
+ out.innerHTML=`<div class="calc-result"><div class="small-muted">Percentage</div><div class="big">${pct.toFixed(1)}%</div><div>${gradeLetter(pct)} grade · ${e}/${p} points</div></div>`;
+}
+function render(){
+ const active=tasks.filter(t=>!t.done),done=tasks.filter(t=>t.done);
+ document.getElementById('total').textContent=active.length;
+ document.getElementById('completed').textContent=done.length;
+ const weekCount=tasks.filter(t=>{const d=daysAway(t.due);return d>=0&&d<=7&&!t.done}).length;
+ document.getElementById('week').textContent=weekCount;
+ document.getElementById('percent').textContent=tasks.length?Math.round(done.length/tasks.length*100)+'%':'0%';
+ document.getElementById('goalCompleted').textContent=done.length;
+ const sorted=[...tasks].filter(t=>!t.done).sort((a,b)=>a.due.localeCompare(b.due));
+ document.getElementById('upcoming').innerHTML=sorted.length?sorted.slice(0,6).map(t=>taskHTML(t)).join(''):'<div class="empty">No upcoming assignments. Nice! 🎉</div>';
+ document.getElementById('allTasks').innerHTML=tasks.length?[...tasks].sort((a,b)=>a.due.localeCompare(b.due)).map(t=>taskHTML(t,true)).join(''):'<div class="empty">Add your first assignment.</div>';
+ const names=classNames();
+ document.getElementById('classProgress').innerHTML=names.length?names.map(n=>{const s=classStats(n);const p=s.pct===null?0:s.pct;return `<div class="class-row"><div class="class-top"><span>${esc(n)}</span><span>${s.pct===null?'—':p.toFixed(0)+'%'}</span></div><div class="progress"><div class="bar" style="width:${Math.min(p,100)}%"></div></div></div>`}).join(''):'<div class="empty">Your class grades will appear here.</div>';
+ document.getElementById('gradeCards').innerHTML=names.length?names.map(n=>{const s=classStats(n);return `<div style="padding:12px 0;border-bottom:1px solid var(--line)"><div style="display:flex;justify-content:space-between;font-weight:700"><span>${esc(n)}</span><span>${s.pct===null?'—':s.pct.toFixed(1)+'% '+gradeLetter(s.pct)}</span></div><div class="task-meta">${s.graded.length} graded assignments · ${s.earned}/${s.possible} points</div></div>`}).join(''):'<div class="empty">Add assignments to see class grades.</div>';
+ renderClasses();
+}
+render();
+</script>
+</body>
+</html>
